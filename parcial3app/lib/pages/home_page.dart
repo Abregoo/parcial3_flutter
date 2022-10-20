@@ -13,6 +13,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   late List lstfoods = [];
+  String pais = 'Japanese';
 
   @override
   Widget build(BuildContext context) {
@@ -23,26 +24,29 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-   @override
+  @override
   void initState() {
     super.initState();
-    if(mounted){
+    if (mounted) {
       datosFood();
     }
   }
 
   void datosFood() {
-    var url = Uri.https('themealdb.com','/api/json/v1/1/filter.php?a=French');
-    
+    Map<String, String> qParams = {'a': pais};
+    var url = Uri.https('themealdb.com', '/api/json/v1/1/filter.php', qParams);
+
     http.get(url).then((value) {
       // print(value.body)
       if (value.statusCode == 200) {
         var decodejsonData = jsonDecode(value.body);
         lstfoods = decodejsonData['meals'];
-         print(lstfoods[0]['strMeal']);
+        print(lstfoods[0]['strMeal']);
+
         setState(() {});
-      }else{
+      } else {
         print("Fallee");
+        print(value.statusCode);
       }
     });
   }
@@ -77,16 +81,15 @@ class _HomePageState extends State<HomePage> {
   bodyApp() {
     return Container(
       decoration: fondo(),
-      child: SingleChildScrollView(
-        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          separador(10),
-          titulos("Majano Abrego Alejandra Guadaupe. 25-3688-2018", 15.0),
-          titulos("Raymundo Hernández Elmer Geovanny. 25-3688-2018", 15.0),
-          separador(10),
-          //cardComidas(),
-          separador(800),
-        ]),
-      ),
+      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        separador(10),
+        titulos("Majano Abrego Alejandra Guadaupe. 25-3688-2018", 15.0),
+        titulos("Raymundo Hernández Elmer Geovanny. 25-3688-2018", 15.0),
+        separador(10),
+        // btnError(),
+        cardComidas(),
+        //slideprueba(),
+      ]),
     );
   }
 
@@ -103,7 +106,7 @@ class _HomePageState extends State<HomePage> {
         child: Text(
           titulo,
           style: TextStyle(
-              fontFamily: 'Pacifico',
+              fontFamily: 'JosefinSans',
               fontSize: size,
               fontWeight: FontWeight.bold),
         ),
@@ -118,42 +121,58 @@ class _HomePageState extends State<HomePage> {
   }
 
   cardComidas() {
-    return Column(children: [
-      // lstfoods ==null ?
-      Expanded(
-          child: GridView.builder(
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 1, childAspectRatio: 3),
-        itemCount: lstfoods.length,
-        itemBuilder: (context, index) {
-          return Card(
-            color: Colors.greenAccent,
-            child: Stack(children: [
-              // Positioned(
-              //     child: Image.asset(
-              //   "assets/img/pokeball.png",
-              //   height: 100,
-              //   fit: BoxFit.fitHeight,
-              // )),
-              Column(
+    return Expanded(
+      child: GridView.builder(
+         
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 3, childAspectRatio: 1),
+          itemCount: lstfoods.length,
+          itemBuilder: (context, index) {
+            return Card(
+              color: Color.fromARGB(92, 196, 199, 255),
+              child: Column(
                 children: [
                   Text(
                     lstfoods[index]['strMeal'],
-                  ),
-                  CachedNetworkImage(
-                    imageUrl: lstfoods[index]['strMealThumb'],
-                    alignment: Alignment.center,
+                    style: TextStyle(
+                    fontFamily: 'JosefinSans',
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                    ),
+                   ),
+                 
+                  Expanded(
+                    child: CachedNetworkImage(
+                      imageUrl: lstfoods[index]['strMealThumb'],
+                      alignment: Alignment.center,
+                      fit: BoxFit.fill,
+                       imageBuilder: (context, imageProvider) => Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(50)),
+                          image: DecorationImage(
+                            image: imageProvider,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                    ),
                   )
                 ],
               ),
-            ]),
-          );
-        },
-      ))
-    ]);
+            );
+          }),
+    );
   }
 
   // =================================================================================
+
+  btnError() {
+    return ElevatedButton(
+        child: Text("Presione el boton"),
+        onPressed: () {
+          datosFood();
+        });
+  }
 
   BoxDecoration fondo() {
     return const BoxDecoration(
@@ -168,9 +187,9 @@ class _HomePageState extends State<HomePage> {
       ],
       colors: [
         Color.fromARGB(255, 245, 232, 93),
-        Color.fromARGB(255, 238, 83, 77),
+        Color.fromARGB(255, 230, 138, 134),
         Color.fromARGB(255, 255, 122, 70),
-        Color.fromARGB(255, 54, 255, 232),
+        Color.fromARGB(255, 120, 255, 239),
       ],
     ));
   }
