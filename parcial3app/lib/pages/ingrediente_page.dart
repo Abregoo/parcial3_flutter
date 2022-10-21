@@ -17,7 +17,9 @@ class IngredientePage extends StatefulWidget {
 
 class _IngredientePageState extends State<IngredientePage> {
   late List lstingred = [];
+  late List lstdatosIngr = [];
   String nomcomida = '';
+  String urlImg = 'https://www.themealdb.com/images/ingredients/';
 
   @override
   Widget build(BuildContext context) {
@@ -37,10 +39,9 @@ class _IngredientePageState extends State<IngredientePage> {
   }
 
   void datosFood() {
-    String dominio = 'themealdb.com', path='/api/json/v1/1/filter.php';
+    String dominio = 'themealdb.com', path = '/api/json/v1/1/lookup.php';
 
-
-    Map<String, String> qParams = {'a': 'French'};
+    Map<String, String> qParams = {'i': widget.idComida};
     var url = Uri.https(dominio, path, qParams);
 
     http.get(url).then((value) {
@@ -49,7 +50,29 @@ class _IngredientePageState extends State<IngredientePage> {
         var decodejsonData = jsonDecode(value.body);
         lstingred = decodejsonData['meals'];
         nomcomida = lstingred[0]['strMeal'];
-        print(lstingred[0]['strMeal']);
+
+        lstdatosIngr.add(lstingred[0]['strIngredient1']);
+        lstdatosIngr.add(lstingred[0]['strIngredient2']);
+        lstdatosIngr.add(lstingred[0]['strIngredient3']);
+        lstdatosIngr.add(lstingred[0]['strIngredient4']);
+        lstdatosIngr.add(lstingred[0]['strIngredient5']);
+        lstdatosIngr.add(lstingred[0]['strIngredient6']);
+        lstdatosIngr.add(lstingred[0]['strIngredient7']);
+        lstdatosIngr.add(lstingred[0]['strIngredient8']);
+        lstdatosIngr.add(lstingred[0]['strIngredient9']);
+        lstdatosIngr.add(lstingred[0]['strIngredient10']);
+        lstdatosIngr.add(lstingred[0]['strIngredient11']);
+        lstdatosIngr.add(lstingred[0]['strIngredient12']);
+        lstdatosIngr.add(lstingred[0]['strIngredient13']);
+        lstdatosIngr.add(lstingred[0]['strIngredient14']);
+        lstdatosIngr.add(lstingred[0]['strIngredient15']);
+        lstdatosIngr.add(lstingred[0]['strIngredient16']);
+        lstdatosIngr.add(lstingred[0]['strIngredient17']);
+        lstdatosIngr.add(lstingred[0]['strIngredient18']);
+        lstdatosIngr.add(lstingred[0]['strIngredient19']);
+        lstdatosIngr.add(lstingred[0]['strIngredient20']);
+
+        print(lstingred[0]['strIngredient2']);
 
         setState(() {});
       } else {
@@ -91,12 +114,10 @@ class _IngredientePageState extends State<IngredientePage> {
       decoration: fondo(),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         separador(10),
-        titulos("Majano Abrego Alejandra Guadaupe. 25-3688-2018", 15.0),
-        titulos("Raymundo Hernández Elmer Geovanny. 25-3688-2018", 15.0),
+        titulos(nomcomida, 25.0),
         separador(10),
-        // btnError(),
+        titulo2("Ingredientes"),
         cardComidas(),
-        //slideprueba(),
       ]),
     );
   }
@@ -110,20 +131,22 @@ class _IngredientePageState extends State<IngredientePage> {
   titulos(String titulo, double size) {
     return Container(
       child: Padding(
-        padding: const EdgeInsets.only(left: 20, top: 8),
+        padding: const EdgeInsets.only(left: 20, top: 12),
         child: Text(
           titulo,
+          textAlign: TextAlign.center,
           style: TextStyle(
               fontFamily: 'JosefinSans',
               fontSize: size,
+              color: Color.fromARGB(255, 8, 32, 139),
               fontWeight: FontWeight.bold),
         ),
       ),
       margin: EdgeInsets.only(left: 25, right: 25),
       width: 400,
-      height: 30,
+      height: 45,
       decoration: BoxDecoration(
-          color: Color.fromARGB(108, 255, 255, 255),
+          color: Color.fromARGB(24, 255, 255, 255),
           borderRadius: BorderRadius.circular(15)),
     );
   }
@@ -131,10 +154,10 @@ class _IngredientePageState extends State<IngredientePage> {
   cardComidas() {
     return Expanded(
       child: GridView.builder(
-         
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 3, childAspectRatio: 1),
-          itemCount: lstingred.length,
+          //itemCount: lstingred.length,
+          itemCount: lstdatosIngr.length,
           itemBuilder: (context, index) {
             return Card(
               color: Color.fromARGB(92, 196, 199, 255),
@@ -143,12 +166,11 @@ class _IngredientePageState extends State<IngredientePage> {
                   Text(
                     lstingred[index]['strMeal'],
                     style: TextStyle(
-                    fontFamily: 'JosefinSans',
-                    fontSize: 15,
-                    fontWeight: FontWeight.bold,
+                      fontFamily: 'JosefinSans',
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
                     ),
-                   ),
-                 
+                  ),
                   Expanded(
                     child: CachedNetworkImage(
                       imageUrl: lstingred[index]['strMealThumb'],
@@ -180,6 +202,28 @@ class _IngredientePageState extends State<IngredientePage> {
         onPressed: () {
           datosFood();
         });
+  }
+
+  titulo2(String titulo) {
+    return Container(
+      child: Padding(
+        padding: const EdgeInsets.only(left: 0, top: 0),
+        child: Text(
+          titulo,
+          style: TextStyle(
+              fontFamily: 'Pacifico',
+              fontSize: 20,
+              color: Color.fromARGB(255, 68, 2, 2),
+              fontWeight: FontWeight.bold),
+        ),
+      ),
+      margin: EdgeInsets.only(left: 30, right: 25),
+      width: 400,
+      height: 35,
+      // decoration: BoxDecoration(
+      //     color: Color.fromARGB(108, 255, 255, 255),
+      //     borderRadius: BorderRadius.circular(15)),
+    );
   }
 
   BoxDecoration fondo() {
