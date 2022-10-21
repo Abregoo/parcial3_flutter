@@ -10,7 +10,6 @@ class IngredientePage extends StatefulWidget {
   IngredientePage({Key? key, required this.idComida}) : super(key: key);
 
   final String idComida;
-
   @override
   State<IngredientePage> createState() => _IngredientePageState();
 }
@@ -159,37 +158,46 @@ class _IngredientePageState extends State<IngredientePage> {
           //itemCount: lstingred.length,
           itemCount: lstdatosIngr.length,
           itemBuilder: (context, index) {
-            return Card(
-              color: Color.fromARGB(92, 196, 199, 255),
-              child: Column(
-                children: [
-                  Text(
-                    lstingred[index]['strMeal'],
-                    style: TextStyle(
-                      fontFamily: 'JosefinSans',
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  Expanded(
-                    child: CachedNetworkImage(
-                      imageUrl: lstingred[index]['strMealThumb'],
-                      alignment: Alignment.center,
-                      fit: BoxFit.fill,
-                      imageBuilder: (context, imageProvider) => Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(50)),
-                          image: DecorationImage(
-                            image: imageProvider,
-                            fit: BoxFit.cover,
+            // String keyimg = 'strIngredient'+i.toString();
+
+            if (lstdatosIngr[index] != "" && lstdatosIngr[index] != null) {
+              return Card(
+                color: Colors.transparent,
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: CachedNetworkImage(
+                        imageUrl: urlImg + lstdatosIngr[index] + ".png",
+                        alignment: Alignment.center,
+                        fit: BoxFit.fill,
+                        imageBuilder: (context, imageProvider) => Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(50)),
+                            image: DecorationImage(
+                              image: imageProvider,
+                              fit: BoxFit.cover,
+                            ),
                           ),
                         ),
                       ),
                     ),
-                  )
-                ],
-              ),
-            );
+                    Text(
+                      lstdatosIngr[index],
+                      style: TextStyle(
+                        fontFamily: 'JosefinSans',
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            } else {
+              return Visibility(
+                visible: false,
+                child: Text(""),
+              );
+            }
           }),
     );
   }
