@@ -1,19 +1,22 @@
+import 'package:cached_network_image/cached_network_image.dart';
+
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:http/http.dart' as http;
 
-class HomePage extends StatefulWidget {
-  HomePage({Key? key}) : super(key: key);
+class IngredientePage extends StatefulWidget {
+  IngredientePage({Key? key}) : super(key: key);
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<IngredientePage> createState() => _IngredientePageState();
 }
 
-class _HomePageState extends State<HomePage> {
-  late List lstfoods = [];
-  String pais = 'Canadian';
+class _IngredientePageState extends State<IngredientePage> {
+  late List lstingred = [];
+  String idcomida = '52905';
+  String nomcomida = '';
 
   @override
   Widget build(BuildContext context) {
@@ -36,15 +39,16 @@ class _HomePageState extends State<HomePage> {
     String dominio = 'themealdb.com', path='/api/json/v1/1/filter.php';
 
 
-    Map<String, String> qParams = {'a': pais};
+    Map<String, String> qParams = {'a': 'French'};
     var url = Uri.https(dominio, path, qParams);
 
     http.get(url).then((value) {
       // print(value.body)
       if (value.statusCode == 200) {
         var decodejsonData = jsonDecode(value.body);
-        lstfoods = decodejsonData['meals'];
-        print(lstfoods[0]['strMeal']);
+        lstingred = decodejsonData['meals'];
+        nomcomida = lstingred[0]['strMeal'];
+        print(lstingred[0]['strMeal']);
 
         setState(() {});
       } else {
@@ -87,7 +91,7 @@ class _HomePageState extends State<HomePage> {
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         separador(10),
         titulos("Majano Abrego Alejandra Guadaupe. 25-3688-2018", 15.0),
-        titulos("Raymundo Hernández Elmer Giovanni. 25-0491-2018", 15.0),
+        titulos("Raymundo Hernández Elmer Geovanny. 25-3688-2018", 15.0),
         separador(10),
         // btnError(),
         cardComidas(),
@@ -129,14 +133,14 @@ class _HomePageState extends State<HomePage> {
          
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 3, childAspectRatio: 1),
-          itemCount: lstfoods.length,
+          itemCount: lstingred.length,
           itemBuilder: (context, index) {
             return Card(
               color: Color.fromARGB(92, 196, 199, 255),
               child: Column(
                 children: [
                   Text(
-                    lstfoods[index]['strMeal'],
+                    lstingred[index]['strMeal'],
                     style: TextStyle(
                     fontFamily: 'JosefinSans',
                     fontSize: 15,
@@ -146,7 +150,7 @@ class _HomePageState extends State<HomePage> {
                  
                   Expanded(
                     child: CachedNetworkImage(
-                      imageUrl: lstfoods[index]['strMealThumb'],
+                      imageUrl: lstingred[index]['strMealThumb'],
                       alignment: Alignment.center,
                       fit: BoxFit.fill,
                        imageBuilder: (context, imageProvider) => Container(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:parcial3app/pages/home_page.dart';
+import 'package:parcial3app/pages/ingrediente_page.dart';
 
 class MainApp extends StatefulWidget {
   const MainApp({super.key});
@@ -42,7 +43,7 @@ class _MainAppState extends State<MainApp> {
     return IndexedStack(
       index: activeTab,
       children: [
-        HomePage(),        
+        IngredientePage(),        
       ],
     );
   }
