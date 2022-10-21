@@ -86,8 +86,8 @@ class _HomePageState extends State<HomePage> {
       decoration: fondo(),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         separador(10),
-        titulos("Majano Abrego Alejandra Guadaupe. 25-3688-2018", 15.0),
-        titulos("Raymundo Hernández Elmer Giovanni. 25-0491-2018", 15.0),
+        slideNombres("Majano Abrego Alejandra Guadaupe.25-3688-2018"),
+        slideNombres("Raymundo Hernández Elmer Giovanni. 25-0491-2018"),
         separador(10),
         // btnError(),
         cardComidas(),
@@ -174,7 +174,27 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+slideNombres(String dato) {
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Padding(
+        padding: const EdgeInsets.only(left: 30),
+        child: Row(
+          children: [
+            Text(
+              dato,
+              style: TextStyle(
+              fontFamily: 'JosefinSans',
+              fontSize: 18,
+              fontWeight: FontWeight.bold),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
   // =================================================================================
+ 
 
   btnError() {
     return ElevatedButton(

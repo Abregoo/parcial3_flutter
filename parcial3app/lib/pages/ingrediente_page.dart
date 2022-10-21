@@ -19,6 +19,7 @@ class _IngredientePageState extends State<IngredientePage> {
   late List lstdatosIngr = [];
   String nomcomida = '';
   String urlImg = 'https://www.themealdb.com/images/ingredients/';
+  String urlPortada = 'https://www.pngmart.com/files/5/Snow-PNG-Transparent-Image.png';
 
   @override
   Widget build(BuildContext context) {
@@ -44,11 +45,13 @@ class _IngredientePageState extends State<IngredientePage> {
     var url = Uri.https(dominio, path, qParams);
 
     http.get(url).then((value) {
-      // print(value.body)
+ 
       if (value.statusCode == 200) {
         var decodejsonData = jsonDecode(value.body);
         lstingred = decodejsonData['meals'];
         nomcomida = lstingred[0]['strMeal'];
+        urlPortada = lstingred[0]['strMealThumb'];
+
 
         lstdatosIngr.add(lstingred[0]['strIngredient1']);
         lstdatosIngr.add(lstingred[0]['strIngredient2']);
@@ -71,11 +74,11 @@ class _IngredientePageState extends State<IngredientePage> {
         lstdatosIngr.add(lstingred[0]['strIngredient19']);
         lstdatosIngr.add(lstingred[0]['strIngredient20']);
 
-        print(lstingred[0]['strIngredient2']);
+
 
         setState(() {});
       } else {
-        print("Fallee");
+
         print(value.statusCode);
       }
     });
@@ -113,6 +116,7 @@ class _IngredientePageState extends State<IngredientePage> {
       decoration: fondo(),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         separador(10),
+        portadaComida(),
         titulos(nomcomida, 25.0),
         separador(10),
         titulo2("Ingredientes"),
@@ -234,6 +238,28 @@ class _IngredientePageState extends State<IngredientePage> {
     );
   }
 
+  portadaComida() {
+    return Container(
+      margin: EdgeInsets.only(left: 25, right: 25),
+      width: 400,
+      height: 200,
+      child: CachedNetworkImage(
+        imageUrl: urlPortada,
+        alignment: Alignment.center,
+        fit: BoxFit.fill,
+        imageBuilder: (context, imageProvider) => Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(50)),
+            image: DecorationImage(
+              image: imageProvider,
+              fit: BoxFit.cover,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
   BoxDecoration fondo() {
     return const BoxDecoration(
         gradient: LinearGradient(
@@ -246,8 +272,8 @@ class _IngredientePageState extends State<IngredientePage> {
         0.9,
       ],
       colors: [
-        Color.fromARGB(255, 245, 232, 93),
-        Color.fromARGB(255, 230, 138, 134),
+        Color.fromARGB(255, 117, 210, 253),
+        Color.fromARGB(255, 125, 136, 233),
         Color.fromARGB(255, 255, 122, 70),
         Color.fromARGB(255, 120, 255, 239),
       ],
