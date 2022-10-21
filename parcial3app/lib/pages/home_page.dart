@@ -88,7 +88,9 @@ class _HomePageState extends State<HomePage> {
         separador(10),
         slideNombres("Majano Abrego Alejandra Guadaupe.25-3688-2018"),
         slideNombres("Raymundo Hernández Elmer Giovanni. 25-0491-2018"),
-        separador(10),
+        separador(20),
+        titulo2("Resetario de Comidas Canadienses."),
+        separador(2),
         // btnError(),
         cardComidas(),
         //slideprueba(),
@@ -120,6 +122,28 @@ class _HomePageState extends State<HomePage> {
       decoration: BoxDecoration(
           color: Color.fromARGB(108, 255, 255, 255),
           borderRadius: BorderRadius.circular(15)),
+    );
+  }
+
+  titulo2(String titulo) {
+    return Container(
+      child: Padding(
+        padding: const EdgeInsets.only(left: 0, top: 0),
+        child: Text(
+          titulo,
+          style: TextStyle(
+              fontFamily: 'Pacifico',
+              fontSize: 20,
+              color: Color.fromARGB(255, 68, 2, 2),
+              fontWeight: FontWeight.bold),
+        ),
+      ),
+      margin: EdgeInsets.only(left: 10, right: 25),
+      width: 400,
+      height: 35,
+      // decoration: BoxDecoration(
+      //     color: Color.fromARGB(108, 255, 255, 255),
+      //     borderRadius: BorderRadius.circular(15)),
     );
   }
 
