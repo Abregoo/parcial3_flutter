@@ -20,6 +20,7 @@ class _IngredientePageState extends State<IngredientePage> {
   String nomcomida = '';
   String urlImg = 'https://www.themealdb.com/images/ingredients/';
   String urlPortada = 'https://www.pngmart.com/files/5/Snow-PNG-Transparent-Image.png';
+  String txtInstrucciones = "";
 
   @override
   Widget build(BuildContext context) {
@@ -51,37 +52,41 @@ class _IngredientePageState extends State<IngredientePage> {
         lstingred = decodejsonData['meals'];
         nomcomida = lstingred[0]['strMeal'];
         urlPortada = lstingred[0]['strMealThumb'];
+        txtInstrucciones = lstingred[0]['strInstructions'];
 
 
-        lstdatosIngr.add(lstingred[0]['strIngredient1']);
-        lstdatosIngr.add(lstingred[0]['strIngredient2']);
-        lstdatosIngr.add(lstingred[0]['strIngredient3']);
-        lstdatosIngr.add(lstingred[0]['strIngredient4']);
-        lstdatosIngr.add(lstingred[0]['strIngredient5']);
-        lstdatosIngr.add(lstingred[0]['strIngredient6']);
-        lstdatosIngr.add(lstingred[0]['strIngredient7']);
-        lstdatosIngr.add(lstingred[0]['strIngredient8']);
-        lstdatosIngr.add(lstingred[0]['strIngredient9']);
-        lstdatosIngr.add(lstingred[0]['strIngredient10']);
-        lstdatosIngr.add(lstingred[0]['strIngredient11']);
-        lstdatosIngr.add(lstingred[0]['strIngredient12']);
-        lstdatosIngr.add(lstingred[0]['strIngredient13']);
-        lstdatosIngr.add(lstingred[0]['strIngredient14']);
-        lstdatosIngr.add(lstingred[0]['strIngredient15']);
-        lstdatosIngr.add(lstingred[0]['strIngredient16']);
-        lstdatosIngr.add(lstingred[0]['strIngredient17']);
-        lstdatosIngr.add(lstingred[0]['strIngredient18']);
-        lstdatosIngr.add(lstingred[0]['strIngredient19']);
-        lstdatosIngr.add(lstingred[0]['strIngredient20']);
+       if(validarIngrediente(lstingred[0]['strIngredient1'])) lstdatosIngr.add(lstingred[0]['strIngredient1']);
+       if(validarIngrediente(lstingred[0]['strIngredient2'])) lstdatosIngr.add(lstingred[0]['strIngredient2']);
+       if(validarIngrediente(lstingred[0]['strIngredient3'])) lstdatosIngr.add(lstingred[0]['strIngredient3']);
+       if(validarIngrediente(lstingred[0]['strIngredient4'])) lstdatosIngr.add(lstingred[0]['strIngredient4']);
+       if(validarIngrediente(lstingred[0]['strIngredient5'])) lstdatosIngr.add(lstingred[0]['strIngredient5']);
+       if(validarIngrediente(lstingred[0]['strIngredient6'])) lstdatosIngr.add(lstingred[0]['strIngredient6']);
+       if(validarIngrediente(lstingred[0]['strIngredient7'])) lstdatosIngr.add(lstingred[0]['strIngredient7']);
+       if(validarIngrediente(lstingred[0]['strIngredient8'])) lstdatosIngr.add(lstingred[0]['strIngredient8']);
+       if(validarIngrediente(lstingred[0]['strIngredient9'])) lstdatosIngr.add(lstingred[0]['strIngredient9']);
+       if(validarIngrediente(lstingred[0]['strIngredient10'])) lstdatosIngr.add(lstingred[0]['strIngredient10']);
+       if(validarIngrediente(lstingred[0]['strIngredient11'])) lstdatosIngr.add(lstingred[0]['strIngredient11']);
+       if(validarIngrediente(lstingred[0]['strIngredient12'])) lstdatosIngr.add(lstingred[0]['strIngredient12']);
+       if(validarIngrediente(lstingred[0]['strIngredient13'])) lstdatosIngr.add(lstingred[0]['strIngredient13']);
+       if(validarIngrediente(lstingred[0]['strIngredient14'])) lstdatosIngr.add(lstingred[0]['strIngredient14']);
+       if(validarIngrediente(lstingred[0]['strIngredient15'])) lstdatosIngr.add(lstingred[0]['strIngredient15']);
+       if(validarIngrediente(lstingred[0]['strIngredient16'])) lstdatosIngr.add(lstingred[0]['strIngredient16']);
+       if(validarIngrediente(lstingred[0]['strIngredient17'])) lstdatosIngr.add(lstingred[0]['strIngredient17']);
+       if(validarIngrediente(lstingred[0]['strIngredient18'])) lstdatosIngr.add(lstingred[0]['strIngredient18']);
+       if(validarIngrediente(lstingred[0]['strIngredient19'])) lstdatosIngr.add(lstingred[0]['strIngredient19']);
+       if(validarIngrediente(lstingred[0]['strIngredient20'])) lstdatosIngr.add(lstingred[0]['strIngredient20']);
 
-
-
+        
         setState(() {});
       } else {
 
         print(value.statusCode);
       }
     });
+  }
+
+  validarIngrediente(String ingrediente){
+    return ingrediente != null && ingrediente != "";
   }
 
   getAppbar() {
@@ -120,7 +125,14 @@ class _IngredientePageState extends State<IngredientePage> {
         titulos(nomcomida, 25.0),
         separador(10),
         titulo2("Ingredientes"),
+        
+        separador(10),
         cardComidas(),
+        separador(20),
+        titulo2("Instrucciones"),
+
+        txtinstruc(txtInstrucciones),
+        separador(20),
       ]),
     );
   }
@@ -128,6 +140,29 @@ class _IngredientePageState extends State<IngredientePage> {
   separador(double number) {
     return SizedBox(
       height: number,
+    );
+  }
+
+  txtinstruc(String titulo) {
+    return Container(
+      child: Padding(
+        padding: const EdgeInsets.only(left: 20, top: 12),
+        child: Text(
+          titulo,
+          textAlign: TextAlign.center,
+          style: TextStyle(
+              fontFamily: 'JosefinSans',
+              fontSize: 12,
+              color: Color.fromARGB(255, 3, 12, 53),
+              ),
+        ),
+      ),
+      margin: EdgeInsets.only(left: 25, right: 25),
+      width: 400,
+      height: 200,
+      decoration: BoxDecoration(
+          color: Color.fromARGB(24, 255, 255, 255),
+          borderRadius: BorderRadius.circular(15)),
     );
   }
 
@@ -155,6 +190,9 @@ class _IngredientePageState extends State<IngredientePage> {
   }
 
   cardComidas() {
+    
+   
+   print("------->"+lstdatosIngr.length.toString());
     return Expanded(
       child: GridView.builder(
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
