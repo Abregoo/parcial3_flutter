@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:parcial3app/pages/home_page.dart';
-import 'package:parcial3app/pages/ingrediente_page.dart';
 
 class MainApp extends StatefulWidget {
   const MainApp({super.key});
@@ -13,8 +12,7 @@ class _MainAppState extends State<MainApp> {
   int activeTab = 0;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: body());
+    return Scaffold(body: body());
   }
 
   BoxDecoration fondo() {
@@ -37,13 +35,11 @@ class _MainAppState extends State<MainApp> {
     ));
   }
 
-  
-
   Widget body() {
     return IndexedStack(
       index: activeTab,
       children: [
-        IngredientePage(),        
+        HomePage(),
       ],
     );
   }

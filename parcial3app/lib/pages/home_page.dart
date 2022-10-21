@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:http/http.dart' as http;
+import 'package:parcial3app/pages/ingrediente_page.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key? key}) : super(key: key);
@@ -33,8 +34,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   void datosFood() {
-    String dominio = 'themealdb.com', path='/api/json/v1/1/filter.php';
-
+    String dominio = 'themealdb.com', path = '/api/json/v1/1/filter.php';
 
     Map<String, String> qParams = {'a': pais};
     var url = Uri.https(dominio, path, qParams);
@@ -126,41 +126,48 @@ class _HomePageState extends State<HomePage> {
   cardComidas() {
     return Expanded(
       child: GridView.builder(
-         
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 3, childAspectRatio: 1),
           itemCount: lstfoods.length,
           itemBuilder: (context, index) {
             return Card(
               color: Color.fromARGB(92, 196, 199, 255),
-              child: Column(
-                children: [
-                  Text(
-                    lstfoods[index]['strMeal'],
-                    style: TextStyle(
-                    fontFamily: 'JosefinSans',
-                    fontSize: 15,
-                    fontWeight: FontWeight.bold,
+              child: InkWell(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: ((context) => IngredientePage(
+                              idComida: lstfoods[index]['idMeal']))));
+                },
+                child: Column(
+                  children: [
+                    Text(
+                      lstfoods[index]['strMeal'],
+                      style: TextStyle(
+                        fontFamily: 'JosefinSans',
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                   ),
-                 
-                  Expanded(
-                    child: CachedNetworkImage(
-                      imageUrl: lstfoods[index]['strMealThumb'],
-                      alignment: Alignment.center,
-                      fit: BoxFit.fill,
-                       imageBuilder: (context, imageProvider) => Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(50)),
-                          image: DecorationImage(
-                            image: imageProvider,
-                            fit: BoxFit.cover,
+                    Expanded(
+                      child: CachedNetworkImage(
+                        imageUrl: lstfoods[index]['strMealThumb'],
+                        alignment: Alignment.center,
+                        fit: BoxFit.fill,
+                        imageBuilder: (context, imageProvider) => Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(50)),
+                            image: DecorationImage(
+                              image: imageProvider,
+                              fit: BoxFit.cover,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  )
-                ],
+                    )
+                  ],
+                ),
               ),
             );
           }),

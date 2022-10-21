@@ -7,7 +7,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:http/http.dart' as http;
 
 class IngredientePage extends StatefulWidget {
-  IngredientePage({Key? key}) : super(key: key);
+  IngredientePage({Key? key, required this.idComida}) : super(key: key);
+
+  final String idComida;
 
   @override
   State<IngredientePage> createState() => _IngredientePageState();
@@ -15,7 +17,6 @@ class IngredientePage extends StatefulWidget {
 
 class _IngredientePageState extends State<IngredientePage> {
   late List lstingred = [];
-  String idcomida = '52905';
   String nomcomida = '';
 
   @override
@@ -153,7 +154,7 @@ class _IngredientePageState extends State<IngredientePage> {
                       imageUrl: lstingred[index]['strMealThumb'],
                       alignment: Alignment.center,
                       fit: BoxFit.fill,
-                       imageBuilder: (context, imageProvider) => Container(
+                      imageBuilder: (context, imageProvider) => Container(
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.all(Radius.circular(50)),
                           image: DecorationImage(
